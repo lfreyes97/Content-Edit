@@ -1,0 +1,13 @@
+---
+import '@/styles/globals.css'
+import Layout from '../layouts/Layout.astro';
+import TextEditor from '../components/TextEditor';
+import { Toaster } from '@/components/ui/sonner';
+---
+
+<Layout title="Editor de Texto">
+	<main class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-8">
+		<TextEditor client:load />
+		<Toaster client:load />
+	</main>
+</Layout>
