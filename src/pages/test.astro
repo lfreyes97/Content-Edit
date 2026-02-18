@@ -1,0 +1,25 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MonacoEditor from "../components/MonacoEditor"; // Assuming react component is directly importable in .astro via plugin
+
+// Astro handles React components with client: directives
+---
+
+<Layout title="Monaco Editor Demo">
+  <main class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-6">Monaco Editor Integration</h1>
+    <div class="space-y-4">
+      <p class="text-muted-foreground">
+        Experiment with the code editor below.
+      </p>
+
+      <MonacoEditor
+        client:only="react"
+        initialValue="// Try editing this JavaScript code\nconsole.log('Hello Monaco!');"
+        language="javascript"
+        height="600px"
+        theme="vs-dark"
+      />
+    </div>
+  </main>
+</Layout>
