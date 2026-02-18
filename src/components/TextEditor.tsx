@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Save, FileText, Download, Upload, Eye, Code, Terminal } from 'lucide-react';
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Save, FileText, Download, Upload, Eye, Code, Terminal, Heading1, Heading2, List, ListOrdered, Link, Quote } from 'lucide-react';
 import { toast } from 'sonner';
 import { marked } from 'marked';
 import { TerminalPanel } from './TerminalPanel';
@@ -28,7 +28,14 @@ export default function TextEditor() {
   const [advancedLanguage, setAdvancedLanguage] = useState<'markdown' | 'html'>('markdown');
 
   const handleFormat = (command: string, value?: string) => {
-    document.execCommand(command, false, value);
+    if (command === 'createLink' && !value) {
+        const url = prompt('Enter URL:');
+        if (url) {
+            document.execCommand(command, false, url);
+        }
+    } else {
+        document.execCommand(command, false, value);
+    }
     editorRef.current?.focus();
   };
 
@@ -336,6 +343,66 @@ export default function TextEditor() {
                      </Button>
                    </TooltipTrigger>
                    <TooltipContent>Subrayado</TooltipContent>
+                 </Tooltip>
+
+                 <Separator orientation="vertical" className="h-4 mx-2 bg-zinc-700" />
+
+                 <Tooltip>
+                   <TooltipTrigger asChild>
+                     <Button variant="ghost" size="sm" onClick={() => handleFormat('formatBlock', 'h1')} className="h-7 w-7 p-0 hover:bg-zinc-800 hover:text-zinc-100" disabled={mode === 'markdown'}>
+                        <Heading1 className="h-4 w-4" />
+                     </Button>
+                   </TooltipTrigger>
+                   <TooltipContent>Título 1</TooltipContent>
+                 </Tooltip>
+
+                 <Tooltip>
+                   <TooltipTrigger asChild>
+                     <Button variant="ghost" size="sm" onClick={() => handleFormat('formatBlock', 'h2')} className="h-7 w-7 p-0 hover:bg-zinc-800 hover:text-zinc-100" disabled={mode === 'markdown'}>
+                        <Heading2 className="h-4 w-4" />
+                     </Button>
+                   </TooltipTrigger>
+                   <TooltipContent>Título 2</TooltipContent>
+                 </Tooltip>
+                 
+                 <Tooltip>
+                   <TooltipTrigger asChild>
+                     <Button variant="ghost" size="sm" onClick={() => handleFormat('formatBlock', 'blockquote')} className="h-7 w-7 p-0 hover:bg-zinc-800 hover:text-zinc-100" disabled={mode === 'markdown'}>
+                        <Quote className="h-4 w-4" />
+                     </Button>
+                   </TooltipTrigger>
+                   <TooltipContent>Cita</TooltipContent>
+                 </Tooltip>
+
+                 <Separator orientation="vertical" className="h-4 mx-2 bg-zinc-700" />
+
+                 <Tooltip>
+                   <TooltipTrigger asChild>
+                     <Button variant="ghost" size="sm" onClick={() => handleFormat('insertUnorderedList')} className="h-7 w-7 p-0 hover:bg-zinc-800 hover:text-zinc-100" disabled={mode === 'markdown'}>
+                        <List className="h-4 w-4" />
+                     </Button>
+                   </TooltipTrigger>
+                   <TooltipContent>Lista con viñetas</TooltipContent>
+                 </Tooltip>
+
+                 <Tooltip>
+                   <TooltipTrigger asChild>
+                     <Button variant="ghost" size="sm" onClick={() => handleFormat('insertOrderedList')} className="h-7 w-7 p-0 hover:bg-zinc-800 hover:text-zinc-100" disabled={mode === 'markdown'}>
+                        <ListOrdered className="h-4 w-4" />
+                     </Button>
+                   </TooltipTrigger>
+                   <TooltipContent>Lista numerada</TooltipContent>
+                 </Tooltip>
+
+                 <Separator orientation="vertical" className="h-4 mx-2 bg-zinc-700" />
+
+                 <Tooltip>
+                   <TooltipTrigger asChild>
+                     <Button variant="ghost" size="sm" onClick={() => handleFormat('createLink')} className="h-7 w-7 p-0 hover:bg-zinc-800 hover:text-zinc-100" disabled={mode === 'markdown'}>
+                        <Link className="h-4 w-4" />
+                     </Button>
+                   </TooltipTrigger>
+                   <TooltipContent>Enlace</TooltipContent>
                  </Tooltip>
 
                  <Separator orientation="vertical" className="h-4 mx-2 bg-zinc-700" />

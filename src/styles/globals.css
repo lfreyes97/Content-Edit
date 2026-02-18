@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "@fontsource/google-sans";
+@import "@fontsource-variable/google-sans-code";
 @import "@fontsource/inter";
 @import "@fontsource/fira-code";
 
@@ -111,8 +113,8 @@
     }
   }
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Fira Code", ui-monospace, SFMono-Regular, monospace;
+  --font-sans: "Google Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Google Sans Code", "Fira Code", ui-monospace, SFMono-Regular, monospace;
 }
 
 @layer base {

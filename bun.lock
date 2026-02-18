@@ -6,7 +6,9 @@
       "name": "@example/basics",
       "dependencies": {
         "@astrojs/react": "4.4.2",
+        "@fontsource-variable/google-sans-code": "^5.2.3",
         "@fontsource/fira-code": "^5.2.7",
+        "@fontsource/google-sans": "^5.2.1",
         "@fontsource/inter": "^5.2.8",
         "@hookform/resolvers": "5.2.2",
         "@monaco-editor/react": "^4.7.0",
@@ -184,7 +186,11 @@
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.8", "", {}, "sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig=="],
 
+    "@fontsource-variable/google-sans-code": ["@fontsource-variable/google-sans-code@5.2.3", "", {}, "sha512-2ZQ8UkMMxz/MXve9PY8o5FjTnRZh94Jn5ZfND5mUDWwVh/t0JDgFaIdPPONyNGzlJOgn1Qlyhs2YEMbv5yQpLQ=="],
+
     "@fontsource/fira-code": ["@fontsource/fira-code@5.2.7", "", {}, "sha512-tnB9NNund9TwIym8/7DMJe573nlPEQb+fKUV5GL8TBYXjIhDvL0D7mgmNVNQUPhXp+R7RylQeiBdkA4EbOHPGQ=="],
+
+    "@fontsource/google-sans": ["@fontsource/google-sans@5.2.1", "", {}, "sha512-FteXH18YS0288Bcrjefwyyp7hLwxd8yQBEcmjU/P0BED9c8n8kxwgna3gtMtYyFQx/wIkpyrzj8RaYQyl/4quw=="],
 
     "@fontsource/inter": ["@fontsource/inter@5.2.8", "", {}, "sha512-P6r5WnJoKiNVV+zvW2xM13gNdFhAEpQ9dQJHt3naLvfg+LkF2ldgSLiF4T41lf1SQCM9QmkqPTn4TH568IRagg=="],
 

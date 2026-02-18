@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "@astrojs/react": "4.4.2",
+    "@fontsource-variable/google-sans-code": "^5.2.3",
     "@fontsource/fira-code": "^5.2.7",
+    "@fontsource/google-sans": "^5.2.1",
     "@fontsource/inter": "^5.2.8",
     "@hookform/resolvers": "5.2.2",
     "@monaco-editor/react": "^4.7.0",
