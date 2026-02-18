@@ -13,6 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Save, FileText, Download, Upload, Eye, Code, Terminal } from 'lucide-react';
 import { toast } from 'sonner';
 import { marked } from 'marked';
+import { TerminalPanel } from './TerminalPanel';
+import { cn } from '@/lib/utils';
 import Editor from '@monaco-editor/react';
 
 export default function TextEditor() {
@@ -475,23 +477,8 @@ export default function TextEditor() {
            )}
         </div>
 
-        {/* Terminal / Bottom Panel */}
-        <div className="h-8 bg-blue-600 flex items-center px-4 text-xs font-medium text-white select-none gap-4">
-           <div className="flex items-center gap-2">
-              <Terminal className="h-3 w-3" />
-              <span>TERMINAL</span>
-           </div>
-           <div className="flex items-center gap-2 opacity-70 hover:opacity-100 cursor-pointer">
-              <span>OUTPUT</span>
-           </div>
-           <div className="flex items-center gap-2 opacity-70 hover:opacity-100 cursor-pointer">
-              <span>PROBLEMS</span>
-           </div>
-           
-           <div className="ml-auto opacity-70 cursor-pointer hover:opacity-100">
-               Ln {wordCount}, Col {charCount}
-           </div>
-        </div>
+        {/* Terminal / Bottom Panel - Disabled by default */}
+        {/* <TerminalPanel wordCount={wordCount} charCount={charCount} /> */}
       </div>
     </div>
   );
