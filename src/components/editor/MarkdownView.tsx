@@ -13,7 +13,7 @@ export function MarkdownView({ content, onChange }: MarkdownViewProps) {
         value={content}
         onChange={(e) => onChange(e.target.value)}
         className="h-full w-full p-4 bg-zinc-900 text-zinc-100 focus:outline-none resize-none font-mono text-sm border-r border-zinc-800"
-        placeholder="# Enter your markdown..."
+        placeholder="# Escribe tu markdown..."
       />
       <ScrollArea className="h-full w-full bg-zinc-900">
         <div

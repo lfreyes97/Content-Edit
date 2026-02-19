@@ -3,23 +3,31 @@ import { toast } from 'sonner';
 import { marked } from 'marked';
 import { TerminalPanel } from './TerminalPanel';
 import { EditorTabs } from './editor/EditorTabs';
-import { EditorToolbar } from './editor/EditorToolbar';
+// import { EditorSidebar } from './editor/EditorSidebar'; // Deprecated
+import { ActivityBar, type ActivityView } from './editor/ActivityBar';
+import { SidePanel } from './editor/SidePanel';
 import { WysiwygView } from './editor/WysiwygView';
 import { MarkdownView } from './editor/MarkdownView';
 import { AdvancedView } from './editor/AdvancedView';
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 export default function TextEditor() {
   const editorRef = useRef<HTMLDivElement>(null);
   const [wordCount, setWordCount] = useState(0);
   const [charCount, setCharCount] = useState(0);
   const [mode, setMode] = useState<'wysiwyg' | 'markdown' | 'advanced'>('wysiwyg');
+  const [activeView, setActiveView] = useState<ActivityView>('edit'); // Default to Edit view
   const [markdownContent, setMarkdownContent] = useState('');
   const [htmlContent, setHtmlContent] = useState('');
   const [advancedLanguage, setAdvancedLanguage] = useState<'markdown' | 'html'>('markdown');
 
   const handleFormat = (command: string, value?: string) => {
     if (command === 'createLink' && !value) {
-        const url = prompt('Enter URL:');
+        const url = prompt('Introduce la URL:');
         if (url) {
             document.execCommand(command, false, url);
         }
@@ -241,66 +249,84 @@ export default function TextEditor() {
             onUpload={handleUpload}
         />
 
-        <EditorToolbar 
-            mode={mode}
-            onFormat={handleFormat}
-            wordCount={wordCount}
-            charCount={charCount}
-        />
+        <div className="flex-1 overflow-hidden">
+            <ResizablePanelGroup direction="horizontal" className="h-full w-full rounded-lg border-zinc-800">
+                {/* Main Content Area */}
+                <ResizablePanel defaultSize={80} minSize={50} className="bg-zinc-900 relative">
+                
+                    {/* Visual Mode */}
+                    {mode === 'wysiwyg' && (
+                        <WysiwygView 
+                            ref={editorRef}
+                            content={htmlContent} // Pass current content to ensure sync on re-render
+                            onInput={(html) => {
+                                setHtmlContent(html);
+                                updateStats();
+                            }}
+                        />
+                    )}
 
-        {/* Main Content Area */}
-        <div className="flex-1 bg-zinc-900 overflow-hidden relative">
-           
-           {/* Visual Mode */}
-           {mode === 'wysiwyg' && (
-             <WysiwygView 
-                ref={editorRef}
-                content={htmlContent} // Pass current content to ensure sync on re-render
-                onInput={(html) => {
-                    setHtmlContent(html);
-                    updateStats();
-                }}
-             />
-           )}
+                    {/* Markdown Mode */}
+                    {mode === 'markdown' && (
+                        <MarkdownView 
+                            content={markdownContent}
+                            onChange={setMarkdownContent}
+                        />
+                    )}
 
-           {/* Markdown Mode */}
-           {mode === 'markdown' && (
-              <MarkdownView 
-                content={markdownContent}
-                onChange={setMarkdownContent}
-              />
-           )}
+                    {/* Advanced Mode */}
+                    {mode === 'advanced' && (
+                        <AdvancedView 
+                            language={advancedLanguage}
+                            content={advancedLanguage === 'markdown' ? markdownContent : htmlContent}
+                            onChange={(value) => {
+                                if (value !== undefined) {
+                                    if (advancedLanguage === 'markdown') {
+                                        setMarkdownContent(value);
+                                    } else {
+                                        setHtmlContent(value);
+                                    }
+                                }
+                            }}
+                            onLanguageChange={async (lang) => {
+                                if (lang === 'markdown' && advancedLanguage === 'html') {
+                                    const md = htmlToMarkdown(htmlContent);
+                                    setMarkdownContent(md);
+                                } else if (lang === 'html' && advancedLanguage === 'markdown') {
+                                    const html = await marked(markdownContent);
+                                    setHtmlContent(html as string);
+                                }
+                                setAdvancedLanguage(lang);
+                            }}
+                        />
+                    )}
+                </ResizablePanel>
 
-           {/* Advanced Mode */}
-           {mode === 'advanced' && (
-              <AdvancedView 
-                language={advancedLanguage}
-                content={advancedLanguage === 'markdown' ? markdownContent : htmlContent}
-                onChange={(value) => {
-                    if (value !== undefined) {
-                        if (advancedLanguage === 'markdown') {
-                            setMarkdownContent(value);
-                        } else {
-                            setHtmlContent(value);
-                        }
-                    }
-                }}
-                onLanguageChange={async (lang) => {
-                    if (lang === 'markdown' && advancedLanguage === 'html') {
-                        const md = htmlToMarkdown(htmlContent);
-                        setMarkdownContent(md);
-                    } else if (lang === 'html' && advancedLanguage === 'markdown') {
-                        const html = await marked(markdownContent);
-                        setHtmlContent(html as string);
-                    }
-                    setAdvancedLanguage(lang);
-                }}
-              />
-           )}
+                <ResizableHandle withHandle className="bg-zinc-800" />
+
+                {/* Workbench Sidebar (Right Side) */}
+                <ResizablePanel defaultSize={20} minSize={15} maxSize={40} className="flex h-full bg-zinc-950">
+                   {/* Activity Bar (Icons) */}
+                   <ActivityBar 
+                     activeView={activeView}
+                     onViewChange={(view) => {
+                        setActiveView(view);
+                        // If view is closed (null), we could theoretically collapse the panel, 
+                        // but for now we just keep the layout stable.
+                     }}
+                   />
+
+                   {/* Collapsible Panel */}
+                   <SidePanel 
+                     activeView={activeView}
+                     mode={mode}
+                     onFormat={handleFormat}
+                     wordCount={wordCount}
+                     charCount={charCount}
+                   />
+                </ResizablePanel>
+            </ResizablePanelGroup>
         </div>
-
-        {/* Terminal / Bottom Panel - Disabled by default */}
-        {/* <TerminalPanel wordCount={wordCount} charCount={charCount} /> */}
       </div>
     </div>
   );

@@ -142,7 +142,7 @@ export function EditorToolbar({ mode, onFormat, wordCount, charCount }: EditorTo
          )}
        </TooltipProvider>
        <span className="text-xs ml-auto px-2 font-mono text-zinc-500">
-         {wordCount} words • {charCount} chars
+         {wordCount} palabras • {charCount} caracteres
        </span>
     </div>
   );

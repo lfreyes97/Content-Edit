@@ -47,7 +47,7 @@ export function EditorTabs({
             }`}
           >
             <Code className="h-4 w-4" />
-            <span>Source.md</span>
+            <span>Código.md</span>
           </button>
 
           {/* Advanced Tab */}
